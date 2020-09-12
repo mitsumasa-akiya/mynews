@@ -21,11 +21,14 @@ Route::get('/', function () {
 // <!--// 4【応用】 Admin/ProfileControllerに、以下のadd, create, edit, update それぞれのActionを追加してみましょう。-->
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::get('news/create', 'Admin\NewsController@add');
+    Route::get('news/create', 'Admin\NewsController@add')->middleware('auth');
     Route::get('profile/create','Admin\ProfileController@add');
     Route::get('profile/edit','Admin\ProfileController@edit');
 });
 
 Auth::routes(); 
+
+Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
