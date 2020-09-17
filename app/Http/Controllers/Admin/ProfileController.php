@@ -14,10 +14,10 @@ class ProfileController extends Controller
         return view('admin.profile.create');
     }
 
-    public function create(request $request)
+    public function create(Request $request)
     {
-      $this->validate($request, Profile::$rules);
-      $profile = new Profile;
+      $this->validate($request, Profiles::$rules);
+      $profile = new Profiles;
       $form = $request->all();
 
       unset($form['_token']);
