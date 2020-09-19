@@ -35,6 +35,7 @@ class NewsController extends Controller
   }
   // 以下を追記
 
+
  public function index(Request $request)
   {
       $cond_title = $request->cond_title;
