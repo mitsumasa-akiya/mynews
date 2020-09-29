@@ -11,6 +11,7 @@ class CreateNewsTable extends Migration
      *
      * @return void
      */
+     // title と body と image_path を追記
     public function up()
     {
         // title と body と image_path を追記
