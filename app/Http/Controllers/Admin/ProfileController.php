@@ -15,7 +15,8 @@ class ProfileController extends Controller
    // 以下を追記
       // Varidationを行う
       $this->validate($request, Profile::$rules);
-      $profile = new Profiles;
+      
+      $profile = new Profile;
       $form = $request->all();
      
       unset($form['_token']);
@@ -69,10 +70,6 @@ class ProfileController extends Controller
       // 該当するデータを上書きして保存する
       $profile->fill($profile_form)->save();
       
-      $history = new History;
-        $history->news_id = $profiles->id;
-        $history->edited_at = Carbon::now();
-        $history->save();
 
       return redirect('admin/profile');
   }
