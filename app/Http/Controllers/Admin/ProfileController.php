@@ -4,6 +4,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Profile;
+
+// 以下を追記
+use App\HistoryProfile;
+
+use Carbon\Carbon;
+
 class ProfileController extends Controller
 {
     public function add()
@@ -58,22 +64,35 @@ class ProfileController extends Controller
       $profile = Profile::find($request->id);
       // 送信されてきたフォームデータを格納する
       $profile_form = $request->all();
-      if (isset($profile_form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $profile->image_path = basename($path);
-        unset($profile_form['image']);
-      } elseif (isset($request->remove)) {
-        $profile->image_path = null;
-        unset($profile_form['remove']);
-      }
-      unset($profile_form['_token']);
-      // 該当するデータを上書きして保存する
-      $profile->fill($profile_form)->save();
+      
+     
+
+        unset($profile_form['_token']);
+       
+        $profile->fill($profile_form)->save();
+
+        // 以下を追記
+        $history = new HistoryProfile;
+        $history->profile_id = $profile->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+    
+      
+      // if (isset($profile_form['image'])) {
+      //   $path = $request->file('image')->store('public/image');
+      //   $profile->image_path = basename($path);
+      //   unset($profile_form['image']);
+      // } elseif (isset($request->remove)) {
+      //   $profile->image_path = null;
+      //   unset($profile_form['remove']);
+      // }
+      // unset($profile_form['_token']);
+      // // 該当するデータを上書きして保存する
+      // $profile->fill($profile_form)->save();
       
 
       return redirect('admin/profile');
-  }
-  
+}
 // 以下を追記　　
   public function delete(Request $request)
   {
@@ -82,7 +101,7 @@ class ProfileController extends Controller
       // 削除する
       $profile->delete();
       return redirect('admin/profile/');
-  } 
+  }
   
   
 }
